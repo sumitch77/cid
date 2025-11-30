@@ -60,7 +60,7 @@ play4.addEventListener("click" , ()=>{
           aud5.style.display="block";
       aud5.play();
     });
-play6.ddEventListener("click" , ()=>{
+play6.addEventListener("click" , ()=>{
       
           down6.style.display="block";
           aud6.style.display="block";
